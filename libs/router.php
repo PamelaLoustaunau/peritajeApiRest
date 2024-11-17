@@ -1,9 +1,9 @@
 <?php
 //este router nos organiza las uri
-require_once 'request.php';
-require_once 'response.php'
+require_once './libs/request.php';
+require_once './libs/response.php';
 
-class Route {
+class Route{
     private $url;
     private $verb;
     private $controller;
@@ -29,10 +29,10 @@ class Route {
         }
         foreach($partsRoute as $key =>$part){
             if($part[0] != ":"){
-                if($part != $partsUR[$key])
+                if($part != $partsURL[$key])
                 return false;
             }else {
-                $this -> params[''.substr($part, 1)] = $partsURL [$key]
+                $this -> params[''.substr($part, 1)] = $partsURL [$key];
             }
         }
         return true;
@@ -68,7 +68,7 @@ class Router {
 
         foreach($this->routeTable as $route){
             if($route->match($url, $verb)){
-                $route->run($this->request, $this->response):
+                $route->run($this->request, $this->response);
                 return;
             }
         }

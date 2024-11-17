@@ -7,19 +7,67 @@ class SiniestroModel{
         $this->db = new PDO('mysql:host=localhost;dbname=peritajes;charset=utf8', 'root', '');
      }
 
-    
+    public function getSiniestros($idAseguradora = false,$order = false, $priority = false,  $page = false, $quantity = false){
+        
+        $sql = 'SELECT * FROM siniestro';
+        
+        if($idAseguradora){
+            $sql .= ' WHERE `ID_Aseguradora` = ?';
+        }
+        
+        if($order) {
+            switch($order) {
+                case 'fecha':
+                $sql .= ' ORDER BY Fecha';
+                    break;
+                case 'tipoSiniestro':
+                    $sql .= ' ORDER BY Tipo_Siniestro';
+                    break;
+                case 'asegurado':
+                    $sql .= ' ORDER BY Asegurado';
+                    break;
+                case 'idAseguradora':
+                    $sql .= ' ORDER BY ID_Aseguradora';
+                    break;
+                default:
+                 $sql .= ' ORDER BY ID_Siniestro';
+                  break;
+            }  
+        }
+        if($priority){
+            if ($priority === ' DESC' ) {
+                $sql .= ' DESC';  
+            } else {
+                $sql .= ' ASC';  
+            }     
+        }
 
-    public function getSiniestros(){
-        $query = $this->db->prepare('SELECT * FROM siniestro');
-        $query->execute();
+        
+        if($quantity && $page){
+            if($quantity > 0 && $page > 0){
+                $page = ($page - 1) * $quantity;
+                $sql.= " LIMIT $page,$quantity";
+            }
+        }
+
+        $query = $this->db->prepare($sql);
+       
+        if($idAseguradora){
+            $query ->execute([$idAseguradora]);
+        }else{
+            $query ->execute();
+        }
+
         $siniestros = $query -> fetchAll(PDO::FETCH_OBJ);
         return $siniestros;
     }
+
+    
     public function getSiniestroById($id){
         $query = $this->db->prepare('SELECT * FROM siniestro WHERE ID_Siniestro=?');
-        $query->execute($id);
+        $query->execute([$id]);
         $siniestroById = $query->fetch(PDO::FETCH_OBJ);
-        return $siniestrosById;
+        return $siniestroById;
     }
 
     public function getsiniestroAseguradoraId(){
@@ -51,10 +99,7 @@ class SiniestroModel{
 
     public function siniestroModify($date, $typeSiniestro, $asegurado,  $id){
         $query = $this->db->prepare('UPDATE siniestro SET Fecha=?, Tipo_Siniestro=?, Asegurado= ? WHERE ID_Siniestro= ?' );
-
         $query->execute([$date, $typeSiniestro, $asegurado, $id]);
-
-
     }
 
 
