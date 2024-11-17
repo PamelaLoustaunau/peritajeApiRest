@@ -34,6 +34,7 @@ class SiniestroModel{
                   break;
             }  
         }
+
         if($priority){
             if ($priority === ' DESC' ) {
                 $sql .= ' DESC';  
@@ -42,7 +43,6 @@ class SiniestroModel{
             }     
         }
 
-        
         if($quantity && $page){
             if($quantity > 0 && $page > 0){
                 $page = ($page - 1) * $quantity;
@@ -70,39 +70,33 @@ class SiniestroModel{
         return $siniestroById;
     }
 
-    public function getsiniestroAseguradoraId(){
-        $query = $this->db->prepare('SELECT * FROM aseguradora');
-        $query->execute();
+    public function getAseguradoraById($idAseguradora){
         
-        return $query->fetchAll(PDO::FETCH_OBJ);
+        $query = $this->db->prepare('SELECT * FROM aseguradora WHERE ID_Aseguradora = ?');
+        $query->execute([$idAseguradora]);
 
+        return $query->fetch(PDO::FETCH_OBJ);
     }
 
-    public function siniestroaAdd($date, $typeSiniestro, $asegurado, $aseguradoraId){
+    public function siniestroaAdd($fecha, $tipoSiniestro, $asegurado, $idAseguradora){
         $query = $this -> db->prepare('INSERT INTO siniestro (Fecha,Tipo_Siniestro, Asegurado, ID_Aseguradora) VALUES(?,?,?,?)');
-        $query -> execute([$date, $typeSiniestro, $asegurado, $aseguradoraId]);
+        $query -> execute([$fecha, $tipoSiniestro, $asegurado, $idAseguradora]);
         $id = $this->db->lastInsertId();    
         return $id;
     }
+
     public function deleteSiniestro($id){
         $query = $this -> db->prepare('DELETE FROM siniestro WHERE ID_Siniestro=?');
         $query->execute([$id]);
     }
 
-    public function modifySiniestro($id){
-        $query = $this->db->prepare('SELECT * FROM siniestro WHERE ID_Siniestro=?');
-        $query->execute([$id]);   
-        $siniestro = $query->fetch(PDO::FETCH_OBJ);    
-        return $siniestro;
+
+    public function modifySiniestro($fecha, $tipoSiniestro, $asegurado, $idAseguradora, $id){
+        $query = $this->db->prepare('UPDATE siniestro SET Fecha=?, Tipo_Siniestro=?, Asegurado= ?, ID_Aseguradora=? WHERE ID_Siniestro= ?' );
+        $query->execute([$fecha, $tipoSiniestro, $asegurado, $idAseguradora, $id]);
+        $siniestroModificado = $query->fetch(PDO::FETCH_OBJ);
+        return $siniestroModificado;
 
     }
-
-    public function siniestroModify($date, $typeSiniestro, $asegurado,  $id){
-        $query = $this->db->prepare('UPDATE siniestro SET Fecha=?, Tipo_Siniestro=?, Asegurado= ? WHERE ID_Siniestro= ?' );
-        $query->execute([$date, $typeSiniestro, $asegurado, $id]);
-    }
-
-
-
 
 }

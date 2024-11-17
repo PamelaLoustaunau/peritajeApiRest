@@ -7,7 +7,7 @@ class Request{
     public function __construct(){
         try {
 
-            $this -> body = json_decode(file_get_contents('php://input'), true);  //file_get_contents (le pasamos un archivo) nos devuelve el body de la request en este caso en formato json
+            $this -> body = json_decode(file_get_contents('php://input'));  //file_get_contents (le pasamos un archivo) nos devuelve el body de la request en este caso en formato json
 
         } catch (Exception $e) {
 
