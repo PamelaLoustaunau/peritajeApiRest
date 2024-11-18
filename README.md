@@ -133,38 +133,24 @@ La misma podrá realizarse de la siguiente manera:
   
   **Ruta:** https://localhost/peritajeApiRest/api/login
 
+  En la sección **Auth** seleccionar la opción Basic.
 
-- **GET** `/usuarios/login`  
-  Este endpoint permite al Administrador obtener un Token JWT. Se deben enviar las credenciales en el encabezado de la solicitud, en Basic Auth completar los datos requeridos.
+  **Ingresar con:**
 
-  - **Iniciar Sesión**:  
     - **Username**: `webadmin`  
     - **Password**: `admin`  
 
-2- Si las credenciales son válidas, se devuelve un Token JWT que puede ser utilizado para autenticar futuras solicitudes a la API, el Token JWT tendrá una validez medida en tiempo.  
+Como resultado con el código de respuesta **200 OK** se obtendrá el token JWT.
 
-  -Copie el Token JWT generado y complete los datos requeridos en Bearer Token.
-  -Una vez con el Token JWT, el usuario realiza una petición al servidor, enviando en el header el Token JWT previamente generado.  
-  -El servidor validará que el Token JWT sea correcto, desencriptandolo mediante la misma llave que utilizo para encriptarlo.  
-  -Si el Token JWT es correcto, entonces el servidor retornará los datos solicitados.  
+Deberá ser copiado (sin incluir las "") en la opción **Bearer**.
+Luego en la sección **Headers**  completar el campo: 
 
+    - header= Authorization
+    - value= Bearer (token JWT)
 
+(tildar el checkbox **Raw**).
 
-
-
-
-
-      
-
-
-
- ----     
-  
-
-
-## Acceso Administrador
--Usuario: webadmin -Contraseña: admin
-
+En caso de ser incorrectas las credenciales, solamente se podrá acceder al listado de los recursos en su totalidad y de manera individual a cada uno de ellos.
 
 ----
 
