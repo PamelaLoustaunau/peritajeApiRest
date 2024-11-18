@@ -1,37 +1,172 @@
-# peritajeApp (2° entrega)
+# DOCUMENTACION 
+## 1. Introducción
+  Esta Documentación lo guiará con los recursos de la Api y le mostrará cómo realizar diferentes consultas para que pueda aprovecharla al máximo.
 
-Trabajo Práctico Especial para la materia Web 2 de la Tecnicatura Universitaria en Desarrollo de Aplicaciones Informáticas, UNICEN.
+  ----
+
+## 2. Tema
+  Creamos una base de datos, modelando la relación (1 a N), Aseguradora-Siniestro.
+  
+  Esta Api, permite a los peritos (administradores), gestionar los siniestros de diferentes aseguradoras. 
+  
+  Los usuarios podrán obtener, crear,         actualizar y eliminar     dichos recursos.
+  Actualmente los recursos disponibles son:
+  
+- siniestro
+- aseguradora
+
+----
+    
+## 3. Endpoints
+Las respuestas devolverán datos en formato JSON
+  ### 3.1 Obtener todos los siniestros
+  **Método:** GET
+  
+  **Descripción:** Obtener todos los siniestros disponibles (con opciones de filtrado, orden y paginación de los mismos).
+  
+  **Ruta:**   `https://localhost/peritajeApiRest/api/siniestros`
+  
+### 3.2 Obtener un siniestro específico
+  **Método:** GET
+  
+  **Descripción:** Obtener un siniestro agregando su id como parámetro.
+  
+  **Ruta:** `https://localhost/peritajeApiRest/api/siniestros/3`
+
+### 3.3 Agregar un siniestro
+  **Método:** POST
+  
+  **Descripción:** Agregar un nuevo registro proporcionando los datos en formato JSON en el cuerpo de la solicitud.
+  (el id se genera automáticamente).
+  
+  **Datos Requeridos:**
+
+  **"Fecha":** "2024-12-1",
+  
+  **"Tipo_Siniestro":** "Rotura Cristales ",
+  
+  **"Asegurado":** "Mariana Frias",
+  
+  **"ID_Aseguradora":** 5
 
 
-## Tema
 
-Creamos una base de datos, modelando la relación (1 a N), Aseguradora-Siniestro, con el fin de facilitar a los usuarios (peritos) el registro con la información sobre sus siniestros y aseguradoras.
+   **Ruta:**   `https://localhost/peritajeApiRest/api/siniestros`
 
-## Despliegue del Sitio
 
-Requerimientos:
-Tener instalado XAMPP.
 
-Inicializar: 
-Apache y MySQL
+### 3.4 Borrar un siniestro
+  **Método:** DELETE
+  
+  **Descripción:** Borrar un registro indicando su id como parámetro
+  
+  **Ruta:** `https://localhost/peritajeApiRest/api/siniestros/3`
 
-Tener instalado XAMPP.
+### 3.5 Actualizar/Modificar un siniestro
+  **Método:** PUT
+  
+  **Descripción:** Modificar un registro indicando su id, los datos a modificar se proporcionan en formato JSON en el cuerpo de la solicitud.
+  
+  **Datos que pueden modificarse:**
+  
+  **"Fecha":** "2024-12-1",
+  
+  **"Tipo_Siniestro":** "Rotura Cristales ",
+  
+  **"Asegurado":** "Mariana Frias",
+  
+  **"ID_Aseguradora":** 5
 
-## Pasos para Desplegar
-Clonar el repositorio remoto desde la terminal en tu repositorio local o descarga los archivos ZIP y descomprímelos en tu computadora dentro de la carpeta del proyecto a C:\xampp\htdocs (windows) o C:\opt\lampp\htdocs(linux).
 
-## Clonar repositotio: 
+ **Ruta:** `https://localhost/peritajeApiRest/api/siniestros/3`
 
-git clone https://github.com/PamelaLoustaunau/peritajeApp.git 
+  ----
+
+## 4. Filtrado
+Se pueden utilizar filtros en la URL para incluir parámetros de consulta adicionales.
+
+Agregar un ? seguido de los parametros por los que desea filtrar \<query> = \<value>
+
+**Ejemplo:**
+
+**Parámetros de filtrado disponibles:**
+
+- **Order:** Se utiliza para seleccionar el campo por el que se desea filtrar 
+  - **Fecha:** https://localhost/peritajeApiRest/api/siniestros?order=fecha
+  - **Tipo de Siniestro:** https://localhost/peritajeApiRest/api/siniestros?order=tipoSiniestro
+  - **Asegurado:** https://localhost/peritajeApiRest/api/siniestros?order=asegurado
+  - **ID_Aseguradora:** https://localhost/peritajeApiRest/api/siniestros?order=idAseguradora
+    
+  Se pueden realizar combinaciones de filtrado utilizando el oprador lógico **&** de la sigueinte manera
+- **Proirity:** Se utiliza para seleccionar la manera en que se ordenarán los registros
+    - **ASC:(ordenamiento ascendente)** https://localhost/peritajeApiRest/api/siniestros?order=fecha&priority=ASC
+    - **DESC:(ordenamiento descendente)** https://localhost/peritajeApiRest/api/siniestros?order=fecha&priority=DESC
+        
+   
+
+  ----
+## 5. Paginación
+
+Con el parámetro **page** se puede acceder a distintas páginas. Si no se especifica ninguna en particular, se mostrarán los registros en su totalidad.
+
+ - **Ejemplo:** Para acceder a la página 2, se debe añadir **?page=2** al final de la URL.
+
+
+También se puede elegir la cantidad de registros que se mostrarán por página, con el parámetro **quantity**
+
+ - **Ejemplo:** Para mostrar de a 5 registros por página se debe añadir **?quantity=5** al final de la URL.
+
+Si desea utilizar ambos filtros de paginación se concatenan con el operador lógico **&**
+
+**Ruta:**  https://localhost/peritajeApiRest/api/siniestros?page=2&quantity=5
+
+https://localhost/peritajeApiRest/api/siniestros?order=fecha&priority=ASC&page=1&quantity=3
+
+---- 
+## 6. Autenticación
+
+Para poder realizar cambios específicos en los registros **(ABM)** se requerirá autenticación.
+
+La misma podrá realizarse de la siguiente manera:
+
+ **Método:** GET
+  
+  **Ruta:** https://localhost/peritajeApiRest/api/login
+
+
+- **GET** `/usuarios/login`  
+  Este endpoint permite al Administrador obtener un Token JWT. Se deben enviar las credenciales en el encabezado de la solicitud, en Basic Auth completar los datos requeridos.
+
+  - **Iniciar Sesión**:  
+    - **Username**: `webadmin`  
+    - **Password**: `admin`  
+
+2- Si las credenciales son válidas, se devuelve un Token JWT que puede ser utilizado para autenticar futuras solicitudes a la API, el Token JWT tendrá una validez medida en tiempo.  
+
+  -Copie el Token JWT generado y complete los datos requeridos en Bearer Token.
+  -Una vez con el Token JWT, el usuario realiza una petición al servidor, enviando en el header el Token JWT previamente generado.  
+  -El servidor validará que el Token JWT sea correcto, desencriptandolo mediante la misma llave que utilizo para encriptarlo.  
+  -Si el Token JWT es correcto, entonces el servidor retornará los datos solicitados.  
+
+
+
+
+
+
+
+      
+
+
+
+ ----     
+  
+
 
 ## Acceso Administrador
 -Usuario: webadmin -Contraseña: admin
 
 
-
-## Diagrama
-
-![Diagrama](database/diagrama-db.png)
+----
 
 
 ## Integrantes
