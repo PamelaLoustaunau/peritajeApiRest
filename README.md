@@ -12,8 +12,7 @@
   Los usuarios podrán obtener, crear,         actualizar y eliminar     dichos recursos.
   Actualmente los recursos disponibles son:
   
-- siniestro
-- aseguradora
+- siniestros
 
 ----
     
@@ -91,14 +90,14 @@ Agregar un ? seguido de los parametros por los que desea filtrar \<query> = \<va
 
 **Parámetros de filtrado disponibles:**
 
-- **Order:** Se utiliza para seleccionar el campo por el que se desea filtrar 
+- **order:** Se utiliza para seleccionar el campo por el que se desea filtrar 
   - **Fecha:** https://localhost/peritajeApiRest/api/siniestros?order=fecha
   - **Tipo de Siniestro:** https://localhost/peritajeApiRest/api/siniestros?order=tipoSiniestro
   - **Asegurado:** https://localhost/peritajeApiRest/api/siniestros?order=asegurado
   - **ID_Aseguradora:** https://localhost/peritajeApiRest/api/siniestros?order=idAseguradora
     
   Se pueden realizar combinaciones de filtrado utilizando el oprador lógico **&** de la sigueinte manera
-- **Proirity:** Se utiliza para seleccionar la manera en que se ordenarán los registros
+- **priority:** Se utiliza para seleccionar la manera en que se ordenarán los registros
     - **ASC:(ordenamiento ascendente)** https://localhost/peritajeApiRest/api/siniestros?order=fecha&priority=ASC
     - **DESC:(ordenamiento descendente)** https://localhost/peritajeApiRest/api/siniestros?order=fecha&priority=DESC
         
