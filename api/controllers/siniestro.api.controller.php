@@ -67,8 +67,14 @@ class SiniestroApiController{
 
         return $this->view->response($siniestroById, 200);
     }
+    
 
     public function deleteSiniestro($req, $res){
+
+        if(!$res->user) {
+            return $this->view->response("Debes estar logueado para poder borrar datos", 401);
+        }
+
         $id= $req->params->id;
         $siniestroDelete = $this->model->getSiniestroById($id);
 
@@ -82,6 +88,10 @@ class SiniestroApiController{
 
     public function addSiniestro($req, $res){
         
+        if(!$res->user) {
+            return $this->view->response("Debe estar logueado para poder agregar datos", 401);
+        }
+
         if(empty($req->body->Fecha) || empty($req->body->Tipo_Siniestro) || empty($req->body->Asegurado) || empty( $req->body->ID_Aseguradora)){
             return $this->view->response("Faltan completar datos", 400);
         }
@@ -110,6 +120,10 @@ class SiniestroApiController{
     }
 
     public function modifySiniestro($req, $res){
+
+        if(!$res->user) {
+            return $this->view->response("Debe estar logueado para poder modificar datos", 401);
+        }
 
         $id = $req->params->id;
         $siniestroByModify = $this->model->getSiniestroById($id);
