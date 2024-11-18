@@ -137,16 +137,16 @@ La misma podrá realizarse de la siguiente manera:
 
   **Ingresar con:**
 
-    - **Username**: `webadmin`  
-    - **Password**: `admin`  
+  - **Username**: `webadmin`  
+  - **Password**: `admin`  
 
 Como resultado con el código de respuesta **200 OK** se obtendrá el token JWT.
 
 Deberá ser copiado (sin incluir las "") en la opción **Bearer**.
 Luego en la sección **Headers**  completar el campo: 
 
-    - header= Authorization
-    - value= Bearer (token JWT)
+  - header= Authorization
+  - value= Bearer (token JWT)
 
 (tildar el checkbox **Raw**).
 
